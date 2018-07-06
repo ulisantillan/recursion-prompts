@@ -7,31 +7,96 @@
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
 var factorial = function(n) {
+  //if n is less than 0 return null (bc negative number)
+  if (n < 0) {
+    return null;
+} //if n equals 0 return 1
+  if (n === 0) {
+    return 1;
+} // multiply n by new n which is the old n - 1, each time the loop runs
+  return n * factorial (n -1);
 };
-
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
 var sum = function(array) {
+  //if array is empty return 0
+  if (array.length === 0) {
+    return 0;
+  //otherwise add the first array index to the next array index
+} else {
+  //using slice we get the next number to the 0 index
+    return array[0] + sum(array.slice(1));
+  }
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  //if array is empty return 0
+  if(array.length === 0){
+    return 0;
+  //if the first index is an array return the
+  //first array sum + next array integers
+} if (Array.isArray(array[0])){
+    return arraySum(array[0]) + arraySum(array.slice(1));
+  }  //return first array index value + new 0 index value looped
+    return array[0] + arraySum(array.slice(1));
 };
+
 
 // 4. Check if a number is even.
 var isEven = function(n) {
-};
+  //if n equals 0 return true for even integer
+  if (n === 0){
+    return true;
+  //if n equals 1 return false for odd integer
+  }if(n === 1 ) {
+    return false;
+  }
+  //run negative integers
+  //take absolue value of 2, and subtract 2 for every loop
+  //until n equals 0 or 1
+  return isEven(Math.abs(n) - 2);
+ };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+  //if n equals 0 return 0
+  if (n === 0){
+    return 0;
+  //if n is a negative integer use n + 1 to reach 0
+  }if (n < 0){
+    return n + 1 + sumBelow(n + 1);
+  }
+  //if n is positive add n until n equals 0
+  return n -1 + sumBelow(n-1);
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+  //if x = y or x is one integer away from y return empty array
+  if (x === y || x === y -1 || y === x -1) {
+    return [];
+  }
+  //if x is bigger than y subtract from y until y = x
+  if (x < y) {
+    var array = range(x, y - 1);
+       array.push(y - 1);
+       return array;
+  }
+  //if x is less than y add one to y until y = x
+  if (x > y) {
+    var array = range(x, y + 1);
+       array.push(y + 1);
+       return array;
+}
+//push y - 1 in a loop to var list until y = x
+var list = range(start_num, end_num - 1);
+   list.push(end_num - 1);
+   return list;
 };
 
 // 7. Compute the exponent of a number.
@@ -40,6 +105,14 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  //if exp or base equals zero return 1
+  if (exp === 0 || base === 0){
+    return 1;
+    //if exp is negative divide 1 by base^exp
+  } if (exp < 0 ){
+    return  1/(base * exponent(base,-1*exp -1));
+  }   //if exp is positive multiply base by base until exp = 0s
+      return base * exponent(base,exp -1);
 };
 
 // 8. Determine if a number is a power of two.
@@ -47,15 +120,41 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+  //if n equals 1 return true ()
+  if (n === 1){
+    return true;
+  //if n equals 0 or n / 2 leves no r
+}if(n === 0 || n %2 ===1 ) {
+    return false;
+  }
+  //return divide n by 2 repeated
+  return powerOfTwo(n / 2);
 };
-
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+  //once string equals 0 it will stop the loop
+  if(string.length === 0){
+    return "";
+  }
+    //take last letter and places at 0 index
+ return reverse(string.substr(1))+ string.charAt(0);
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  //once string length equals 1 or 0 return true
+  if(string.length === 1 || string === ""){
+    return true;
+  }
+  //if the last character does not match the first return false
+  if (string[0].toLowerCase() !== string.slice(-1).toLowerCase()) {
+    return false;
+  }
+// recursive case
+//remove the first and last characters of the string parameter
+return palindrome(string.substring(1, string.length - 1));
 };
+
 
 // 11. Write a function that returns the remainder of x divided by y without using the
 // modulo (%) operator.
@@ -63,6 +162,35 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+  //if our y value equals 0 then return Not A Number
+  if (y === 0) {
+    return NaN;
+  }
+  //if our parameter x, and y are negative integers
+  if (x < 0 && y < 0) {
+    //and if our x value is greater than our y value
+    if (x > y) {
+    //then return x by itself
+    return x;
+}
+//if only x or y are negative integers
+} else if ((x < 0 && y > 0) || (x > 0 && y < 0)) {
+  //and if negative x is less than y
+  if (-x < y) {
+     //then return x by itself
+     return x;
+   }
+  //start loop and add y to x every time it loops for the else if statement
+  return modulo(x + y, y);
+  //otherwise if x is less than y simply return x by itself
+  } else {
+  if (x < y) {
+    return x;
+   }
+  }
+  //here we return our x value minus our y value in a loop
+  //until one of our conditions are met and the loop stops
+  return modulo(x - y, y);
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
